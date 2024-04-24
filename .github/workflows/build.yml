@@ -1,12 +1,11 @@
-name: CI
-
+name: Build and release RedditFilter
 on:
   push:
   workflow_dispatch:
     inputs:
       create_release:
         description: "Build IPA and create draft release"
-        default: false
+        default: true
         type: boolean
       ipa_url:
         description: "Direct URL to Decrypted IPA file"
@@ -36,7 +35,7 @@ jobs:
         if: ${{ inputs.create_release }}
         run: |
           sudo apt update
-          sudo apt install -y build-essential checkinstall git autoconf automake libtool-bin rsync llvm xmlstarlet
+          sudo apt install -y build-essential checkinstall git autoconf automake libtool-bin rsync llvm xmlstarlet libplist-utils
           curl -L https://github.com/libimobiledevice/libplist/releases/download/2.4.0/libplist-2.4.0.tar.bz2 | bzip2 -d | tar -x
           cd libplist*
           ./configure
