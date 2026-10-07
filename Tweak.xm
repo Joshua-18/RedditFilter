@@ -228,7 +228,8 @@ static void filterNode(NSMutableDictionary *node) {
 
 %hook FeedNetworkSource
 - (NSArray *)postsAndCommentsFromData:(id)data {
-  return filteredObjects(%orig);
+  NSArray *objects = %orig(data);
+  return filteredObjects(objects);
 }
 %end
 
@@ -397,15 +398,15 @@ static void filterNode(NSMutableDictionary *node) {
   NSUserDefaults *defaults = NSUserDefaults.standardUserDefaults;
   if (![defaults objectForKey:kRedditFilterPromoted])
     [defaults setBool:true forKey:kRedditFilterPromoted];
-  if (![defaults objectForKey:kRedditFilterPromoted])
+  if (![defaults objectForKey:kRedditFilterRecommended])
     [defaults setBool:false forKey:kRedditFilterRecommended];
-  if (![defaults objectForKey:kRedditFilterPromoted])
+  if (![defaults objectForKey:kRedditFilterNSFW])
     [defaults setBool:false forKey:kRedditFilterNSFW];
-  if (![defaults objectForKey:kRedditFilterPromoted])
+  if (![defaults objectForKey:kRedditFilterAwards])
     [defaults setBool:false forKey:kRedditFilterAwards];
-  if (![defaults objectForKey:kRedditFilterPromoted])
+  if (![defaults objectForKey:kRedditFilterScores])
     [defaults setBool:false forKey:kRedditFilterScores];
-  if (![defaults objectForKey:kRedditFilterPromoted])
+  if (![defaults objectForKey:kRedditFilterAutoCollapseAutoMod])
     [defaults setBool:false forKey:kRedditFilterAutoCollapseAutoMod];
   %init;
   %init(Legacy, Comment = CoreClass(@"Comment"), Post = CoreClass(@"Post"),
